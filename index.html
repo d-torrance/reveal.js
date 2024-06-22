@@ -16,8 +16,21 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>The twisted cubic in Macaulay2:
+					<pre><code class="hljs macaulay2">
+i1 : R = QQ[x,y,z,w]
+
+o1 = R
+
+o1 : PolynomialRing
+
+i2 : I = monomialCurveIdeal(R, {1,2,3})
+
+             2                    2
+o2 = ideal (z  - y*w, y*z - x*w, y  - x*z)
+
+o2 : Ideal of R
+					</code></pre></section>
 			</div>
 		</div>
 
