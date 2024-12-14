@@ -101,8 +101,5 @@
       "no-eq-null": 2,
       "no-unused-expressions": 0
     }
-  },
-  "dependencies": {
-    "npm-check-updates": "^17.1.9"
   }
 }
