@@ -1780,19 +1780,23 @@ var me = class {
 		this.dom = document.createElement("div"), this.dom.classList.add("r-overlay"), this.dom.classList.add(e), this.viewport = document.createElement("div"), this.viewport.classList.add("r-overlay-viewport"), this.dom.appendChild(this.viewport), this.Reveal.getRevealElement().appendChild(this.dom);
 	}
 	previewIframe(e) {
-		this.close(), this.state = { previewIframe: e }, this.createOverlay("r-overlay-preview"), this.dom.dataset.state = "loading", this.viewport.innerHTML = `<header class="r-overlay-header">
-				<a class="r-overlay-header-button r-overlay-external" href="${e}" target="_blank"><span class="icon"></span></a>
-				<button class="r-overlay-header-button r-overlay-close"><span class="icon"></span></button>
-			</header>
-			<div class="r-overlay-spinner"></div>
-			<div class="r-overlay-content">
-				<iframe src="${e}"></iframe>
-				<small class="r-overlay-content-inner">
-					<span class="r-overlay-error x-frame-error">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>
-				</small>
-			</div>`, this.dom.querySelector("iframe").addEventListener("load", (e) => {
+		if (typeof e != "string") return;
+		let t;
+		try {
+			t = new URL(e, document.baseURI);
+		} catch (e) {
+			return;
+		}
+		if (t.protocol === "file:" && window.location.protocol !== "file:" || ![
+			"http:",
+			"https:",
+			"file:"
+		].includes(t.protocol) && t.href !== "about:blank") return;
+		this.close(), this.state = { previewIframe: e }, this.createOverlay("r-overlay-preview"), this.dom.dataset.state = "loading", this.viewport.innerHTML = "<header class=\"r-overlay-header\">\n				<a class=\"r-overlay-header-button r-overlay-external\" target=\"_blank\" rel=\"noopener\"><span class=\"icon\"></span></a>\n				<button class=\"r-overlay-header-button r-overlay-close\"><span class=\"icon\"></span></button>\n			</header>\n			<div class=\"r-overlay-spinner\"></div>\n			<div class=\"r-overlay-content\">\n				<iframe></iframe>\n				<small class=\"r-overlay-content-inner\">\n					<span class=\"r-overlay-error x-frame-error\">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>\n				</small>\n			</div>";
+		let n = this.dom.querySelector("iframe");
+		n.addEventListener("load", (e) => {
 			this.dom.dataset.state = "loaded";
-		}, !1), this.dom.querySelector(".r-overlay-close").addEventListener("click", (e) => {
+		}, !1), n.src = t.href, this.dom.querySelector(".r-overlay-external").href = t.href, this.dom.querySelector(".r-overlay-close").addEventListener("click", (e) => {
 			this.close(), e.preventDefault();
 		}, !1), this.dom.querySelector(".r-overlay-external").addEventListener("click", (e) => {
 			this.close();
