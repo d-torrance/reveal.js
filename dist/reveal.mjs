@@ -185,7 +185,7 @@ var _ = /android/gi.test(h), v = function(e) {
 	}
 }(typeof window > "u" ? null : window);
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/typeof.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/typeof.js
 function y(e) {
 	"@babel/helpers - typeof";
 	return y = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
@@ -195,7 +195,7 @@ function y(e) {
 	}, y(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/toPrimitive.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/toPrimitive.js
 function b(e, t) {
 	if (y(e) != "object" || !e) return e;
 	var n = e[Symbol.toPrimitive];
@@ -207,13 +207,13 @@ function b(e, t) {
 	return (t === "string" ? String : Number)(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/toPropertyKey.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/toPropertyKey.js
 function x(e) {
 	var t = b(e, "string");
 	return y(t) == "symbol" ? t : t + "";
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/defineProperty.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/defineProperty.js
 function S(e, t, n) {
 	return (t = x(t)) in e ? Object.defineProperty(e, t, {
 		value: n,
@@ -230,11 +230,11 @@ var ee = class {
 	}
 	renderMediaPlayButton() {
 		this.mediaPlayButton = document.createElement("button"), this.mediaPlayButton.className = "r-overlay-button r-media-play-button", this.mediaPlayButton.addEventListener("click", () => {
-			this.resetTemporarilyMutedMedia(), new Set([
+			this.resetTemporarilyMutedMedia(), (/* @__PURE__ */ new Set([
 				...this.failedAudioPlaybackTargets,
 				...this.failedVideoPlaybackTargets,
 				...this.failedMutedVideoPlaybackTargets
-			]).forEach((e) => {
+			])).forEach((e) => {
 				this.startEmbeddedMedia({ target: e });
 			}), this.clearMediaPlaybackErrors();
 		});
@@ -350,13 +350,15 @@ var ee = class {
 		t && typeof t.catch == "function" && t.then(() => {
 			e.muted || (this.allowedToPlayAudio = !0);
 		}).catch((t) => {
-			if (t.name === "NotAllowedError") if (this.allowedToPlayAudio = !1, e.tagName === "VIDEO") {
-				this.onVideoPlaybackNotAllowed(e);
-				let t = !!o(e, "html"), n = !!o(e, ".present"), r = e.muted;
-				t && n && !r && (e.setAttribute("data-muted-by-reveal", "true"), e.muted = !0, e.play().catch(() => {
-					this.onMutedVideoPlaybackNotAllowed(e);
-				}));
-			} else e.tagName === "AUDIO" && this.onAudioPlaybackNotAllowed(e);
+			if (t.name === "NotAllowedError") {
+				if (this.allowedToPlayAudio = !1, e.tagName === "VIDEO") {
+					this.onVideoPlaybackNotAllowed(e);
+					let t = !!o(e, "html"), n = !!o(e, ".present"), r = e.muted;
+					t && n && !r && (e.setAttribute("data-muted-by-reveal", "true"), e.muted = !0, e.play().catch(() => {
+						this.onMutedVideoPlaybackNotAllowed(e);
+					}));
+				} else e.tagName === "AUDIO" && this.onAudioPlaybackNotAllowed(e);
+			}
 		});
 	}
 	startEmbeddedIframe(e) {
@@ -399,11 +401,11 @@ var ee = class {
 		this.failedMutedVideoPlaybackTargets.add(e), this.showPlayOrUnmuteButton();
 	}
 	resetTemporarilyMutedMedia() {
-		new Set([
+		(/* @__PURE__ */ new Set([
 			...this.failedAudioPlaybackTargets,
 			...this.failedVideoPlaybackTargets,
 			...this.failedMutedVideoPlaybackTargets
-		]).forEach((e) => {
+		])).forEach((e) => {
 			e.hasAttribute("data-muted-by-reveal") && (e.muted = !1, e.removeAttribute("data-muted-by-reveal"));
 		});
 	}
@@ -894,7 +896,9 @@ var ee = class {
 	}
 	syncPages() {
 		let e = this.Reveal.getConfig(), t = this.Reveal.getComputedSlideSize(window.innerWidth, window.innerHeight), n = this.Reveal.getScale(), r = e.scrollLayout === "compact", i = this.viewportElement.offsetHeight, a = t.height * n, o = r ? a : i;
-		this.scrollTriggerHeight = r ? a : i, this.viewportElement.style.setProperty("--page-height", o + "px"), this.viewportElement.style.scrollSnapType = typeof e.scrollSnap == "string" ? `y ${e.scrollSnap}` : "", this.slideTriggers = [], this.pages = Array.from(this.Reveal.getRevealElement().querySelectorAll(".scroll-page")).map((n) => {
+		this.scrollTriggerHeight = r ? a : i, this.viewportElement.style.setProperty("--page-height", o + "px"), this.viewportElement.style.scrollSnapType = typeof e.scrollSnap == "string" ? `y ${e.scrollSnap}` : "", this.slideTriggers = [];
+		let s = Array.from(this.Reveal.getRevealElement().querySelectorAll(".scroll-page"));
+		this.pages = s.map((n) => {
 			let a = this.createPage({
 				pageElement: n,
 				slideElement: n.querySelector("section"),
@@ -1059,7 +1063,7 @@ var ee = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/asyncToGenerator.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/asyncToGenerator.js
 function j(e, t, n, r, i, a, o) {
 	try {
 		var s = e[a](o), c = s.value;
@@ -1172,7 +1176,8 @@ var ue = class {
 				prev: t.length - n.length > 0,
 				next: !!n.length
 			};
-		} else return {
+		}
+		return {
 			prev: !1,
 			next: !1
 		};
@@ -1441,7 +1446,7 @@ var ue = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/objectSpread2.js
+//#region \0@oxc-project+runtime@0.146.0/helpers/esm/objectSpread2.js
 function N(e, t) {
 	var n = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
@@ -1772,7 +1777,7 @@ var me = class {
 		], this.state = {};
 	}
 	update() {
-		this.Reveal.getConfig().previewLinks ? this.iframeTriggerSelector = "a[href]:not([data-preview-link=false]), [data-preview-link]:not(a):not([data-preview-link=false])" : this.iframeTriggerSelector = "[data-preview-link]:not([data-preview-link=false])";
+		this.iframeTriggerSelector = this.Reveal.getConfig().previewLinks ? "a[href]:not([data-preview-link=false]), [data-preview-link]:not(a):not([data-preview-link=false])" : "[data-preview-link]:not([data-preview-link=false])";
 		let e = this.Reveal.getSlidesElement().querySelectorAll(this.iframeTriggerSelector).length > 0, t = this.Reveal.getSlidesElement().querySelectorAll(this.mediaTriggerSelector).length > 0;
 		e || t ? this.Reveal.getSlidesElement().addEventListener("click", this.onSlidesClicked, !1) : this.Reveal.getSlidesElement().removeEventListener("click", this.onSlidesClicked, !1);
 	}
@@ -1933,7 +1938,7 @@ var me = class {
 	isViewportZoomed() {
 		if (!window.visualViewport || typeof window.visualViewport.scale != "number") return !1;
 		let e = window.visualViewport.scale;
-		return this.visualViewportBaseScale === void 0 ? this.visualViewportBaseScale = e : this.visualViewportBaseScale = Math.min(this.visualViewportBaseScale, e), e / this.visualViewportBaseScale > I;
+		return this.visualViewportBaseScale = this.visualViewportBaseScale === void 0 ? e : Math.min(this.visualViewportBaseScale, e), e / this.visualViewportBaseScale > I;
 	}
 	onTouchStart(e) {
 		if (this.touchCaptured = !1, this.isSwipePrevented(e.target)) return !0;
@@ -1948,7 +1953,7 @@ var me = class {
 			let n = e.touches[0].clientX, r = e.touches[0].clientY;
 			if (e.touches.length === 1 && this.touchStartCount !== 2) {
 				let i = this.Reveal.availableRoutes({ includeFragments: !0 }), a = n - this.touchStartX, o = r - this.touchStartY;
-				a > F && Math.abs(a) > Math.abs(o) ? (this.touchCaptured = !0, t.navigationMode === "linear" ? t.rtl ? this.Reveal.next() : this.Reveal.prev() : this.Reveal.left()) : a < -F && Math.abs(a) > Math.abs(o) ? (this.touchCaptured = !0, t.navigationMode === "linear" ? t.rtl ? this.Reveal.prev() : this.Reveal.next() : this.Reveal.right()) : o > F && i.up ? (this.touchCaptured = !0, t.navigationMode === "linear" ? this.Reveal.prev() : this.Reveal.up()) : o < -F && i.down && (this.touchCaptured = !0, t.navigationMode === "linear" ? this.Reveal.next() : this.Reveal.down()), t.embedded ? (this.touchCaptured || this.Reveal.isVerticalSlide()) && e.preventDefault() : e.preventDefault();
+				a > F && Math.abs(a) > Math.abs(o) ? (this.touchCaptured = !0, t.navigationMode === "linear" ? t.rtl ? this.Reveal.next() : this.Reveal.prev() : this.Reveal.left()) : a < -40 && Math.abs(a) > Math.abs(o) ? (this.touchCaptured = !0, t.navigationMode === "linear" ? t.rtl ? this.Reveal.prev() : this.Reveal.next() : this.Reveal.right()) : o > F && i.up ? (this.touchCaptured = !0, t.navigationMode === "linear" ? this.Reveal.prev() : this.Reveal.up()) : o < -40 && i.down && (this.touchCaptured = !0, t.navigationMode === "linear" ? this.Reveal.next() : this.Reveal.down()), t.embedded ? (this.touchCaptured || this.Reveal.isVerticalSlide()) && e.preventDefault() : e.preventDefault();
 			}
 		}
 	}
@@ -2051,7 +2056,7 @@ var me = class {
 		let e = this.playing ? this.progress : 0, t = this.diameter2 - this.thickness, n = this.diameter2, r = this.diameter2;
 		this.progressOffset += (1 - this.progressOffset) * .1;
 		let i = -Math.PI / 2 + Math.PI * 2 * e, a = -Math.PI / 2 + this.progressOffset * (Math.PI * 2);
-		this.context.save(), this.context.clearRect(0, 0, this.diameter, this.diameter), this.context.beginPath(), this.context.arc(n, r, t + 4, 0, Math.PI * 2, !1), this.context.fillStyle = "rgba( 0, 0, 0, 0.4 )", this.context.fill(), this.context.beginPath(), this.context.arc(n, r, t, 0, Math.PI * 2, !1), this.context.lineWidth = this.thickness, this.context.strokeStyle = "rgba( 255, 255, 255, 0.2 )", this.context.stroke(), this.playing && (this.context.beginPath(), this.context.arc(n, r, t, a, i, !1), this.context.lineWidth = this.thickness, this.context.strokeStyle = "#fff", this.context.stroke()), this.context.translate(n - 28 / 2, r - 28 / 2), this.playing ? (this.context.fillStyle = "#fff", this.context.fillRect(0, 0, 28 / 2 - 4, 28), this.context.fillRect(18, 0, 28 / 2 - 4, 28)) : (this.context.beginPath(), this.context.translate(4, 0), this.context.moveTo(0, 0), this.context.lineTo(24, 28 / 2), this.context.lineTo(0, 28), this.context.fillStyle = "#fff", this.context.fill()), this.context.restore();
+		this.context.save(), this.context.clearRect(0, 0, this.diameter, this.diameter), this.context.beginPath(), this.context.arc(n, r, t + 4, 0, Math.PI * 2, !1), this.context.fillStyle = "rgba( 0, 0, 0, 0.4 )", this.context.fill(), this.context.beginPath(), this.context.arc(n, r, t, 0, Math.PI * 2, !1), this.context.lineWidth = this.thickness, this.context.strokeStyle = "rgba( 255, 255, 255, 0.2 )", this.context.stroke(), this.playing && (this.context.beginPath(), this.context.arc(n, r, t, a, i, !1), this.context.lineWidth = this.thickness, this.context.strokeStyle = "#fff", this.context.stroke()), this.context.translate(n - 14, r - 14), this.playing ? (this.context.fillStyle = "#fff", this.context.fillRect(0, 0, 10, 28), this.context.fillRect(18, 0, 10, 28)) : (this.context.beginPath(), this.context.translate(4, 0), this.context.moveTo(0, 0), this.context.lineTo(24, 14), this.context.lineTo(0, 28), this.context.fillStyle = "#fff", this.context.fill()), this.context.restore();
 	}
 	on(e, t) {
 		this.canvas.addEventListener(e, t, !1);
@@ -2152,7 +2157,7 @@ var me = class {
 	pdfPageHeightOffset: -1,
 	dependencies: [],
 	plugins: []
-}, Ee = "6.0.1";
+}, Ee = "6.0.2";
 //#endregion
 //#region js/reveal.js
 function z(a, s) {
@@ -2582,10 +2587,12 @@ function z(a, s) {
 	}
 	function Et(e) {
 		let n = h, r = _, i;
-		if (e) if (I.isActive()) n = parseInt(e.getAttribute("data-index-h"), 10), e.getAttribute("data-index-v") && (r = parseInt(e.getAttribute("data-index-v"), 10));
-		else {
-			let i = nt(e), a = i ? e.parentNode : e, o = Q();
-			n = Math.max(o.indexOf(a), 0), r = void 0, i && (r = Math.max(t(e.parentNode, "section").indexOf(e), 0));
+		if (e) {
+			if (I.isActive()) n = parseInt(e.getAttribute("data-index-h"), 10), e.getAttribute("data-index-v") && (r = parseInt(e.getAttribute("data-index-v"), 10));
+			else {
+				let i = nt(e), a = i ? e.parentNode : e, o = Q();
+				n = Math.max(o.indexOf(a), 0), r = void 0, i && (r = Math.max(t(e.parentNode, "section").indexOf(e), 0));
+			}
 		}
 		if (!e && y && y.querySelectorAll(".fragment").length > 0) {
 			let e = y.querySelector(".current-fragment");
@@ -2690,13 +2697,15 @@ function z(a, s) {
 	}
 	function Gt({ skipFragments: e = !1 } = {}) {
 		if (I.isActive()) return I.prev();
-		if (e || R.prev() === !1) if (Z().up) Ut({ skipFragments: e });
-		else {
-			let n;
-			if (n = f.rtl ? t(D.wrapper, w + ".future").pop() : t(D.wrapper, w + ".past").pop(), n && n.classList.contains("stack")) {
-				let e = n.querySelectorAll("section").length - 1 || void 0;
-				X(h - 1, e);
-			} else f.rtl ? Ht({ skipFragments: e }) : Vt({ skipFragments: e });
+		if (e || R.prev() === !1) {
+			if (Z().up) Ut({ skipFragments: e });
+			else {
+				let n;
+				if (n = f.rtl ? t(D.wrapper, w + ".future").pop() : t(D.wrapper, w + ".past").pop(), n && n.classList.contains("stack")) {
+					let e = n.querySelectorAll("section").length - 1 || void 0;
+					X(h - 1, e);
+				} else f.rtl ? Ht({ skipFragments: e }) : Vt({ skipFragments: e });
+			}
 		}
 	}
 	function Kt({ skipFragments: e = !1 } = {}) {
@@ -2711,13 +2720,15 @@ function z(a, s) {
 	}
 	function Jt(e) {
 		let t = e.data;
-		if (typeof t == "string" && t.charAt(0) === "{" && t.charAt(t.length - 1) === "}" && (t = JSON.parse(t), t.method && typeof l[t.method] == "function")) if (E.test(t.method) === !1) {
-			let e = l[t.method].apply(l, t.args);
-			Xe("callback", {
-				method: t.method,
-				result: e
-			});
-		} else console.warn("reveal.js: \"" + t.method + "\" is is blacklisted from the postMessage API");
+		if (typeof t == "string" && t.charAt(0) === "{" && t.charAt(t.length - 1) === "}" && (t = JSON.parse(t), t.method && typeof l[t.method] == "function")) {
+			if (E.test(t.method) === !1) {
+				let e = l[t.method].apply(l, t.args);
+				Xe("callback", {
+					method: t.method,
+					result: e
+				});
+			} else console.warn("reveal.js: \"" + t.method + "\" is is blacklisted from the postMessage API");
+		}
 	}
 	function Yt(e) {
 		ie === "running" && /section/gi.test(e.target.nodeName) && (ie = "idle", J({
