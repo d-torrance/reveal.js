@@ -185,7 +185,7 @@ var _ = /android/gi.test(h), v = function(e) {
 	}
 }(typeof window > "u" ? null : window);
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/typeof.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/typeof.js
 function y(e) {
 	"@babel/helpers - typeof";
 	return y = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
@@ -195,7 +195,7 @@ function y(e) {
 	}, y(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/toPrimitive.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/toPrimitive.js
 function b(e, t) {
 	if (y(e) != "object" || !e) return e;
 	var n = e[Symbol.toPrimitive];
@@ -207,13 +207,13 @@ function b(e, t) {
 	return (t === "string" ? String : Number)(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/toPropertyKey.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/toPropertyKey.js
 function x(e) {
 	var t = b(e, "string");
 	return y(t) == "symbol" ? t : t + "";
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/defineProperty.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/defineProperty.js
 function S(e, t, n) {
 	return (t = x(t)) in e ? Object.defineProperty(e, t, {
 		value: n,
@@ -328,9 +328,9 @@ var ee = class {
 					e.readyState > 1 ? this.startEmbeddedMedia({ target: e }) : g ? (e.addEventListener("canplay", this.ensureMobileMediaPlaying), this.playMediaElement(e)) : (e.removeEventListener("loadeddata", this.startEmbeddedMedia), e.addEventListener("loadeddata", this.startEmbeddedMedia));
 				}
 			}), n || (t(e, "iframe[src]").forEach((e) => {
-				o(e, ".fragment") && !o(e, ".fragment.visible") || this.startEmbeddedIframe({ target: e });
+				(!o(e, ".fragment") || o(e, ".fragment.visible")) && this.startEmbeddedIframe({ target: e });
 			}), t(e, "iframe[data-src]").forEach((e) => {
-				o(e, ".fragment") && !o(e, ".fragment.visible") || e.getAttribute("src") !== e.getAttribute("data-src") && (e.removeEventListener("load", this.startEmbeddedIframe), e.addEventListener("load", this.startEmbeddedIframe), e.setAttribute("src", e.getAttribute("data-src")));
+				(!o(e, ".fragment") || o(e, ".fragment.visible")) && e.getAttribute("src") !== e.getAttribute("data-src") && (e.removeEventListener("load", this.startEmbeddedIframe), e.addEventListener("load", this.startEmbeddedIframe), e.setAttribute("src", e.getAttribute("data-src")));
 			}));
 		}
 	}
@@ -1063,7 +1063,7 @@ var ee = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/asyncToGenerator.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/asyncToGenerator.js
 function j(e, t, n, r, i, a, o) {
 	try {
 		var s = e[a](o), c = s.value;
@@ -1446,7 +1446,7 @@ var ue = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.146.0/helpers/esm/objectSpread2.js
+//#region \0@oxc-project+runtime@0.149.0/helpers/esm/objectSpread2.js
 function N(e, t) {
 	var n = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
@@ -2406,7 +2406,7 @@ function z(a, s) {
 		typeof e == "boolean" ? e ? Bt() : zt() : A ? Bt() : zt();
 	}
 	function pt() {
-		return !!(O && !A);
+		return !(!O || A);
 	}
 	function X(e, t, n, r) {
 		if (J({
